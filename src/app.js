@@ -10,12 +10,12 @@ const partialsPath = path.join(__dirname,'../templates/partials')
 //customising views directory
 const viewsPath = path.join(__dirname,'../templates/views')
 
-//for handlebar usage
+//setup handlebars engine and views location
 app.set('views',viewsPath)
 app.set('view engine','hbs') //setting name of view engine for express.
 //customising views directory
 hbs.registerPartials(partialsPath)
-
+// setup static directory to server
 app.use(express.static(publicDir)) //setting the path to public dir ie it will be accessible from outside for browser
 
 
@@ -46,7 +46,7 @@ app.get('/about',(req,res)=>{
 app.get('/help',(req,res)=>{     
     
     res.render('help.hbs',{
-        message:test,
+        helpText:"This is Help Section",
         title: 'Help',
         name: 'Yash'
     }) //render fn is to be used for templates instead of send
@@ -62,7 +62,7 @@ app.get('*',(req,res)=>{     // * is the wild charactar
     res.render('404.hbs',{
         title: 'Error 404',
         name:'yash',
-        message : 'Page not found'
+        errorMessage : 'Page not found'
     }) //render fn is to be used for templates instead of send
 })
 
