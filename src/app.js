@@ -42,6 +42,34 @@ app.get('/about',(req,res)=>{
     }) //render fn is to be used for templates instead of send
 })
 
+//call to app/weather
+app.get('/weather',(req,res)=>{
+    if(!req.query.address)
+    {
+        return res.send({
+            error : 'Address is mandatory'
+        })
+
+    }
+    res.send({
+        forecast: 'Snowy',
+        location: req.query.address
+    })
+})
+
+//dummy call to product
+app.get('/products',(req,res)=>{
+    if(!req.query.search)
+    {
+        return res.send({                      //return is used so that code finishes here
+            error: 'Search term is Mandatory'
+        })
+    }
+    console.log(req.query)
+    res.send({
+        products:[]
+    })
+})
 //help call
 app.get('/help',(req,res)=>{     
     
