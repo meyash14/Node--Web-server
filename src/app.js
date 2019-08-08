@@ -10,6 +10,11 @@ const partialsPath = path.join(__dirname,'../templates/partials')
 //customising views directory
 const viewsPath = path.join(__dirname,'../templates/views')
 
+// integrating external geocode and forecast files
+const request = require('request')
+const geoCode = require('../src/utils/geocode.js')
+const weather = require('../src/utils/weather.js')
+
 //setup handlebars engine and views location
 app.set('views',viewsPath)
 app.set('view engine','hbs') //setting name of view engine for express.
@@ -51,10 +56,33 @@ app.get('/weather',(req,res)=>{
         })
 
     }
-    res.send({
-        forecast: 'Snowy',
-        location: req.query.address
+    geoCode(req.query.address,(error,{latitude,longitude,location})=>{
+        if(error){
+            return res.send({error})
+            console.log(error) //if we use return here fn will stop ergo no use of else both ways are fine
+        }
+        else{
+            //const {latitude,longitude} = data //es6 object destructuring one way other wayis to directly remove data varaibele and do it as done in real prog
+        weather(latitude,longitude,(error,forecastData)=> //es6 done with data1 also
+        {
+            if(error)
+            {
+                res.send(error)
+                //console.log(error)
+            }
+            else{
+                res.send({
+                        forecast : forecastData,
+                        location,
+                        address: req.query.address
+                        })
+                console.log(forecastData)
+            //console.log("Temp is" + ' ' + temp)
+            }
+        })
+    }
     })
+    
 })
 
 //dummy call to product

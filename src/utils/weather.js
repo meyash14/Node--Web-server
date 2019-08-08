@@ -12,14 +12,17 @@ const weather = (lat,lon,callback)=>
         {
             callback('Error in darksky',undefined)
         }
-        else if(body.daily.data.length===0) //destructuring response
+       else if(error)//  else if(body.daily.data.length===0) //destructuring response
         {
             callback('Darksky array empty',undefined)
         }
         else{
-        callback(undefined,{
-            temp: body.daily.data[0].temperatureLow
-        })
+        callback(undefined, body.daily.data[0].summary + ' It is currently ' + body.currently.temperature + ' degress out. There is a ' + body.currently.precipProbability + '% chance of rain.')
+            // temp: body.daily.data[0].temperatureLow,
+            // forecast : body.currently.summary,
+            // icon : body.daily.icon
+            //icon : body.minutely.icon
+        
     }
     
     })
