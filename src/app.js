@@ -56,7 +56,7 @@ app.get('/weather',(req,res)=>{
         })
 
     }
-    geoCode(req.query.address,(error,{latitude,longitude,location})=>{
+    geoCode(req.query.address,(error,{latitude,longitude,location}={})=>{ // default parameter set
         if(error){
             return res.send({error})
             console.log(error) //if we use return here fn will stop ergo no use of else both ways are fine
